@@ -7,7 +7,7 @@
 namespace axy\crypt;
 
 /**
- * Apache APR1-MD5 algorithm.
+ * Apache APR1-MD5 algorithm
  */
 class APR1
 {
@@ -17,6 +17,22 @@ class APR1
     const PREFIX = '$apr1$';
     const COUNT_STEPS = 1000;
     const HASH_COUNT_STEPS = 5;
+
+    /**
+     * Verifies a string hash
+     *
+     * @param string $string
+     * @param string $hash
+     * @return string
+     */
+    public static function verify($string, $hash)
+    {
+        $pattern = '~^'.preg_quote(self::PREFIX).'(?<salt>[A-Za-z0-9\./]{8})\$(?<sub>[A-Za-z0-9\./]+)$~is';
+        if (!preg_match($pattern, $hash, $matches)) {
+            return false;
+        }
+        return ($matches['sub'] === self::createSubHash($string, $matches['salt']));
+    }
 
     /**
      * Creates a random salt

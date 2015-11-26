@@ -74,4 +74,30 @@ class APR1Test extends \PHPUnit_Framework_TestCase
             ['this-iS-a-Password', 'EivyGJIIa8Gwb5QFP.9dz1', 'tj9CTOta', false],
         ];
     }
+
+    /**
+     * covers ::verify
+     * @dataProvider providerVerify
+     * @param string $string
+     * @param string $hash
+     * @param bool $expected
+     */
+    public function testVerify($string, $hash, $expected)
+    {
+        $this->assertSame($expected, APR1::verify($string, $hash));
+    }
+
+    /**
+     * @return string
+     */
+    public function providerVerify()
+    {
+        return [
+            ['this-is-a-Password', '$apr1$tj9CTOta$EivyGJIIa8Gwb5QFP.9dz1', true],
+            ['this-is-a-Password', '$apr2$tj9CTOta$EivyGJIIa8Gwb5QFP.9dz1', false],
+            ['this-is-a-Password', '$apr1$tj9CTOTa$EivyGJIIa8Gwb5QFP.9dz1', false],
+            ['this-is-a-Password', '$apr1$tj9CTOta$EivyGJIIa8Gwb5qFP.9dz1', false],
+            ['this-is-a-Password', 'none', false],
+        ];
+    }
 }

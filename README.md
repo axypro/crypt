@@ -8,3 +8,5 @@ Some crypt algorithms.
 PHP 5.4+
 
 Library does not require any dependencies.
+
+* APR1: Apache APR1-MD5 algorithm
