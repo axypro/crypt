@@ -19,6 +19,18 @@ class APR1
     const HASH_COUNT_STEPS = 5;
 
     /**
+     * Hash a string
+     *
+     * @param string $string
+     * @return string
+     */
+    public static function hash($string)
+    {
+        $salt = self::createSalt();
+        return self::PREFIX.$salt.'$'.self::createSubHash($string, $salt);
+    }
+
+    /**
      * Verifies a string hash
      *
      * @param string $string

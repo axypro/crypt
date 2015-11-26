@@ -100,4 +100,30 @@ class APR1Test extends \PHPUnit_Framework_TestCase
             ['this-is-a-Password', 'none', false],
         ];
     }
+
+    /**
+     * covers ::hash
+     * @dataProvider providerHash
+     * @param string $string
+     */
+    public function testHash($string)
+    {
+        $hash = APR1::hash($string);
+        $this->assertInternalType('string', $hash);
+        $this->assertTrue(APR1::verify($string, $hash));
+    }
+
+    /**
+     * @return string
+     */
+    public function providerHash()
+    {
+        return [
+            ['one'],
+            ['two'],
+            ['three-four-five-six-seven'],
+            [''],
+            [md5(microtime())],
+        ];
+    }
 }
