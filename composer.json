@@ -1,0 +1,29 @@
+{
+    "name": "axy/crypt",
+    "type": "library",
+    "description": "Some crypt algorithms",
+    "keywords": [
+        "Crypt",
+        "Hash",
+        "APR_MD5"
+    ],
+    "homepage": "https://github.com/axypro/crypt",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Oleg Grigoriev",
+            "email": "go.vasac@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"        
+    },
+    "autoload": {
+        "psr-4": {
+            "axy\\crypt\\": ""
+        }
+    },
+    "archive": {
+        "exclude": ["/tests/*", "/doc/*", "/cs.sh", "/phpmd.sh", "/*.xml.dist", "/CHANGELOG.md"]
+    }
+}
