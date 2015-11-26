@@ -64,6 +64,19 @@ class APR1
     }
 
     /**
+     * Verifies that a string matches a subHash + salt
+     *
+     * @param string $string
+     * @param string $subHash
+     * @param string $salt
+     * @return bool
+     */
+    public static function verifySubHash($string, $subHash, $salt)
+    {
+        return ($subHash === self::createSubHash($string, $salt));
+    }
+
+    /**
      * @param string $string
      * @param string $salt
      * @return string

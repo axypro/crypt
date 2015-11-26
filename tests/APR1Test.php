@@ -48,4 +48,30 @@ class APR1Test extends \PHPUnit_Framework_TestCase
             ['this-is-a-Password', 'tj9CTOta', 'EivyGJIIa8Gwb5QFP.9dz1'],
         ];
     }
+
+    /**
+     * covers ::verifySubHash
+     * @dataProvider providerVerifySubHash
+     * @param string $string
+     * @param string $subHash
+     * @param string $salt
+     * @param bool $expected
+     */
+    public function testVerifySubHash($string, $subHash, $salt, $expected)
+    {
+        $this->assertSame($expected, APR1::verifySubHash($string, $subHash, $salt));
+    }
+
+    /**
+     * @return string
+     */
+    public function providerVerifySubHash()
+    {
+        return [
+            ['this-is-a-Password', 'EivyGJIIa8Gwb5QFP.9dz1', 'tj9CTOta', true],
+            ['this-is-a-Password', 'EivyGJIIa8Gwb5FFP.9dz1', 'tj9CTOta', false],
+            ['this-is-a-Password', 'EivyGJIIa8Gwb5QFP.9dz1', 'tj9CT1ta', false],
+            ['this-iS-a-Password', 'EivyGJIIa8Gwb5QFP.9dz1', 'tj9CTOta', false],
+        ];
+    }
 }
