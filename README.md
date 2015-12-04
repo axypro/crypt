@@ -1,5 +1,9 @@
 # axy\crypt
 
+[![Latest Stable Version](https://img.shields.io/packagist/v/axy/crypt.svg?style=flat-square)](https://packagist.org/packages/axy/crypt)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat-square)](https://php.net/)
+[![Build Status](https://img.shields.io/travis/axypro/crypt/master.svg?style=flat-square)](https://travis-ci.org/axypro/crypt)
+
 Some crypt algorithms.
 
 * GitHub: [axypro/crypt](https://github.com/axypro/crypt)
