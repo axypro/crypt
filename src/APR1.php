@@ -1,57 +1,38 @@
 <?php
-/**
- * @package axy\crypt
- * @author Oleg Grigoriev <go.vasac@gmail.com>
- */
+
+declare(strict_types=1);
 
 namespace axy\crypt;
 
-/**
- * Apache APR1-MD5 algorithm
- */
+/** Apache APR1-MD5 algorithm */
 class APR1
 {
-    const ALPHABET = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    const BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-    const SALT_LENGTH = 8;
-    const PREFIX = '$apr1$';
-    const COUNT_STEPS = 1000;
-    const HASH_COUNT_STEPS = 5;
+    public const ALPHABET = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    public const BASE64_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    public const SALT_LENGTH = 8;
+    public const PREFIX = '$apr1$';
+    public const COUNT_STEPS = 1000;
+    public const HASH_COUNT_STEPS = 5;
 
-    /**
-     * Hash a string
-     *
-     * @param string $string
-     * @return string
-     */
-    public static function hash($string)
+    /** Hashes a string */
+    public static function hash(string $string): string
     {
         $salt = self::createSalt();
-        return self::PREFIX.$salt.'$'.self::createSubHash($string, $salt);
+        return self::PREFIX . $salt . '$' . self::createSubHash($string, $salt);
     }
 
-    /**
-     * Verifies a string hash
-     *
-     * @param string $string
-     * @param string $hash
-     * @return string
-     */
-    public static function verify($string, $hash)
+    /** Verifies a string hash */
+    public static function verify(string $string, string $hash): bool
     {
-        $pattern = '~^'.preg_quote(self::PREFIX).'(?<salt>[A-Za-z0-9\./]{8})\$(?<sub>[A-Za-z0-9\./]+)$~is';
+        $pattern = '~^' . preg_quote(self::PREFIX) . '(?<salt>[A-Za-z0-9./]{8})\$(?<sub>[A-Za-z0-9./]+)$~is';
         if (!preg_match($pattern, $hash, $matches)) {
             return false;
         }
         return ($matches['sub'] === self::createSubHash($string, $matches['salt']));
     }
 
-    /**
-     * Creates a random salt
-     *
-     * @return string
-     */
-    public static function createSalt()
+    /** Creates a random salt */
+    public static function createSalt(): string
     {
         $alphabet = self::ALPHABET;
         $length = strlen($alphabet);
@@ -63,14 +44,8 @@ class APR1
         return implode('', $salt);
     }
 
-    /**
-     * Creates a hash for a string and a salt
-     *
-     * @param string $string
-     * @param string $salt
-     * @return string
-     */
-    public static function createSubHash($string, $salt)
+    /** Creates a hash for a string and a salt */
+    public static function createSubHash(string $string, string $salt): string
     {
         $context = self::createContext($string, $salt);
         $null = chr(0);
@@ -81,9 +56,9 @@ class APR1
             if ($j === 16) {
                 $j = 5;
             }
-            $hash = $context[$i].$context[$k].$context[$j].$hash;
+            $hash = $context[$i] . $context[$k] . $context[$j] . $hash;
         }
-        $hash = $null.$null.$context[11].$hash;
+        $hash = $null . $null . $context[11] . $hash;
         $hash = base64_encode($hash);
         $hash = substr($hash, 2);
         $hash = strrev($hash);
@@ -91,30 +66,18 @@ class APR1
         return $hash;
     }
 
-    /**
-     * Verifies that a string matches a subHash + salt
-     *
-     * @param string $string
-     * @param string $subHash
-     * @param string $salt
-     * @return bool
-     */
-    public static function verifySubHash($string, $subHash, $salt)
+    /** Verifies that a string matches a subHash + salt */
+    public static function verifySubHash(string $string, string $subHash, string $salt): bool
     {
         return ($subHash === self::createSubHash($string, $salt));
     }
 
-    /**
-     * @param string $string
-     * @param string $salt
-     * @return string
-     */
-    private static function createContext($string, $salt)
+    private static function createContext(string $string, string $salt): string
     {
         $len = strlen($string);
         $null = chr(0);
-        $context = $string.self::PREFIX.$salt;
-        $binary = pack('H32', md5($string.$salt.$string));
+        $context = $string . self::PREFIX . $salt;
+        $binary = pack('H32', md5("$string$salt$string"));
         for ($i = $len; $i > 0; $i -= 16) {
             $context .= substr($binary, 0, min(16, $i));
         }
@@ -125,13 +88,7 @@ class APR1
         return self::iterateContext($string, $salt, $context);
     }
 
-    /**
-     * @param string $string
-     * @param string $salt
-     * @param string $context
-     * @return string
-     */
-    private static function iterateContext($string, $salt, $context)
+    private static function iterateContext(string $string, string $salt, string $context): string
     {
         for ($i = 0; $i < self::COUNT_STEPS; $i++) {
             $value = [];

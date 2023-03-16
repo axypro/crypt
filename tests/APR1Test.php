@@ -1,8 +1,6 @@
 <?php
-/**
- * @package axy\crypt
- * @author Oleg Grigoriev <go.vasac@gmail.com>
- */
+
+declare(strict_types=1);
 
 namespace axy\crypt\tests;
 
@@ -11,35 +9,29 @@ use axy\crypt\APR1;
 /**
  * coversDefaultClass axy\crypt\APR1
  */
-class APR1Test extends \PHPUnit_Framework_TestCase
+class APR1Test extends BaseTestCase
 {
     /**
      * covers ::createSalt
      */
-    public function testCreateSalt()
+    public function testCreateSalt(): void
     {
         $salt = APR1::createSalt();
-        $this->assertInternalType('string', $salt);
-        $pattern = '~^[A-Za-z0-9\./]{8}$~is';
-        $this->assertRegExp($pattern, $salt);
+        $this->assertIsString('string', $salt);
+        $pattern = '~^[A-Za-z0-9./]{8}$~is';
+        $this->assertMatchesRegularExpression($pattern, $salt);
     }
 
     /**
      * covers ::createSubHash
      * @dataProvider providerCreateSubHash
-     * @param string $string
-     * @param string $salt
-     * @param string $expected
      */
-    public function testCreateSubHash($string, $salt, $expected)
+    public function testCreateSubHash(string $string, string $salt, string $expected): void
     {
         $this->assertSame($expected, APR1::createSubHash($string, $salt));
     }
 
-    /**
-     * @return string
-     */
-    public function providerCreateSubHash()
+    public static function providerCreateSubHash(): array
     {
         return [
             ['one', 'IQ9IZAC8', 'wunOzzELYRnoT1g6Oj.ec0'],
@@ -52,20 +44,13 @@ class APR1Test extends \PHPUnit_Framework_TestCase
     /**
      * covers ::verifySubHash
      * @dataProvider providerVerifySubHash
-     * @param string $string
-     * @param string $subHash
-     * @param string $salt
-     * @param bool $expected
      */
-    public function testVerifySubHash($string, $subHash, $salt, $expected)
+    public function testVerifySubHash(string $string, string $subHash, string $salt, bool $expected): void
     {
         $this->assertSame($expected, APR1::verifySubHash($string, $subHash, $salt));
     }
 
-    /**
-     * @return string
-     */
-    public function providerVerifySubHash()
+    public static function providerVerifySubHash(): array
     {
         return [
             ['this-is-a-Password', 'EivyGJIIa8Gwb5QFP.9dz1', 'tj9CTOta', true],
@@ -78,19 +63,13 @@ class APR1Test extends \PHPUnit_Framework_TestCase
     /**
      * covers ::verify
      * @dataProvider providerVerify
-     * @param string $string
-     * @param string $hash
-     * @param bool $expected
      */
-    public function testVerify($string, $hash, $expected)
+    public function testVerify(string $string, string $hash, bool $expected): void
     {
         $this->assertSame($expected, APR1::verify($string, $hash));
     }
 
-    /**
-     * @return string
-     */
-    public function providerVerify()
+    public static function providerVerify(): array
     {
         return [
             ['this-is-a-Password', '$apr1$tj9CTOta$EivyGJIIa8Gwb5QFP.9dz1', true],
@@ -104,19 +83,15 @@ class APR1Test extends \PHPUnit_Framework_TestCase
     /**
      * covers ::hash
      * @dataProvider providerHash
-     * @param string $string
      */
-    public function testHash($string)
+    public function testHash(string $string): void
     {
         $hash = APR1::hash($string);
-        $this->assertInternalType('string', $hash);
+        $this->assertIsString('string', $hash);
         $this->assertTrue(APR1::verify($string, $hash));
     }
 
-    /**
-     * @return string
-     */
-    public function providerHash()
+    public static function providerHash(): array
     {
         return [
             ['one'],

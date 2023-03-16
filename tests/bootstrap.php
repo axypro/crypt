@@ -1,9 +1,7 @@
 <?php
-/**
- * @package axy\crypt
- * @author Oleg Grigoriev <go.vasac@gmail.com>
- */
 
-namespace axy\crypt;
+declare(strict_types=1);
 
-require(__DIR__.'/../index.php');
+namespace axy\crypt\tests;
+
+require_once __DIR__ . '/../index.php';

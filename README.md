@@ -3,15 +3,10 @@
 Some crypt algorithms.
 
 [![Latest Stable Version](https://img.shields.io/packagist/v/axy/crypt.svg?style=flat-square)](https://packagist.org/packages/axy/crypt)
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.4-8892BF.svg?style=flat-square)](https://php.net/)
-[![Build Status](https://img.shields.io/travis/axypro/crypt/master.svg?style=flat-square)](https://travis-ci.org/axypro/crypt)
-[![Coverage Status](https://coveralls.io/repos/axypro/crypt/badge.svg?branch=master&service=github)](https://coveralls.io/github/axypro/crypt?branch=master)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%208.1-8892BF.svg?style=flat-square)](https://php.net/)
+[![Tests](https://github.com/axypro/crypt/actions/workflows/test.yml/badge.svg)](https://github.com/axypro/crypt/actions/workflows/test.yml)
+[![Coverage Status](https://coveralls.io/repos/github/axypro/crypt/badge.svg?branch=master)](https://coveralls.io/github/axypro/crypt?branch=master)
 [![License](https://poser.pugx.org/axy/crypt/license)](LICENSE)
-
-* The library does not require any dependencies (except composer packages).
-* Tested on PHP 5.4+, PHP 7, HHVM (on Linux), PHP 5.5 (on Windows).
-* Install: `composer require axy/crypt`.
-* License: [MIT](LICENSE).
 
 ### Documentation
 

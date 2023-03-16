@@ -1,6 +1,7 @@
 ### dev-master
 
-* Travis & Coveralls
+* PHP 8.1
+* Dev in docker
 
 ### 0.1.1 (02.12.2015)
 
